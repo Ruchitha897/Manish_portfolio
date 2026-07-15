@@ -20,7 +20,7 @@ const projects = [
     description: 'High-energy promotional video for a sports apparel brand.',
     duration: '1:30',
     software: 'Premiere Pro, DaVinci Resolve',
-    layout: 'md:col-span-1 md:row-span-1',
+    layout: 'md:col-span-1 md:row-span-2', // Vertical layout
     videoSrc: '/videos/portfolio_video_2.mp4'
   },
   {
@@ -30,7 +30,7 @@ const projects = [
     description: 'Engaging tech review with motion graphics and smooth transitions.',
     duration: '10:45',
     software: 'Premiere Pro, After Effects',
-    layout: 'md:col-span-1 md:row-span-1',
+    layout: 'md:col-span-1 md:row-span-2', // Vertical layout
     videoSrc: '/videos/portfolio_video_3.mp4'
   },
   {
@@ -50,7 +50,7 @@ const projects = [
     description: 'Creative music video editing with heavy color grading and VFX.',
     duration: '3:45',
     software: 'Premiere Pro, After Effects, DaVinci',
-    layout: 'md:col-span-2 md:row-span-1', // Wide layout
+    layout: 'md:col-span-1 md:row-span-2', // Vertical layout
     videoSrc: '/videos/portfolio_video_5.mp4'
   }
 ];
@@ -137,27 +137,7 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              {/* Content */}
-              <div className="absolute inset-0 p-6 flex flex-col justify-end z-20 translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-300">
-                <div className="flex justify-between items-end">
-                  <div>
-                    <span className="text-[#00e5ff] text-xs font-space font-bold tracking-widest uppercase mb-2 flex items-center">
-                      {project.category === 'YouTube' && <PlayCircle className="w-4 h-4 mr-1.5" />}
-                      {project.category === 'Instagram Reel' && <Camera className="w-4 h-4 mr-1.5" />}
-                      {project.category}
-                    </span>
-                    <h4 className="text-3xl font-bebas text-white mb-2">{project.title}</h4>
-                    <p className="text-gray-300 text-sm font-light max-w-sm opacity-100 h-auto md:opacity-0 md:h-0 md:group-hover:opacity-100 md:group-hover:h-auto transition-all duration-300 overflow-hidden">
-                      {project.description}
-                    </p>
-                  </div>
-                  
-                  <div className="flex flex-col items-end text-xs font-space text-gray-400 space-y-1">
-                    <span className="bg-white/10 px-2 py-1 rounded backdrop-blur-sm">{project.duration}</span>
-                    <span className="opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">{project.software}</span>
-                  </div>
-                </div>
-              </div>
+
               
               {/* Animated Border */}
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#8b5cf6]/50 rounded-2xl transition-colors duration-300 z-30 pointer-events-none" />
