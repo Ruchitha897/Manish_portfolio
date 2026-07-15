@@ -6,7 +6,6 @@ import About from './components/About';
 import Skills from './components/Skills';
 import Timeline from './components/Timeline';
 import Portfolio from './components/Portfolio';
-import FeaturedProject from './components/FeaturedProject';
 import Testimonials from './components/Testimonials';
 import Process from './components/Process';
 import WhyChooseMe from './components/WhyChooseMe';
@@ -29,7 +28,6 @@ function App() {
             <Skills />
             <Timeline />
             <Portfolio />
-            <FeaturedProject />
             <Testimonials />
             <Process />
             <WhyChooseMe />
