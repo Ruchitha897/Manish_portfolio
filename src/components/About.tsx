@@ -1,27 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView, animate } from 'framer-motion';
 
-function Counter({ from, to, suffix }: { from: number; to: number; suffix: string }) {
-  const nodeRef = useRef<HTMLSpanElement>(null);
-  const inView = useInView(nodeRef, { once: true, margin: "-100px" });
-
-  useEffect(() => {
-    if (inView && nodeRef.current) {
-      const controls = animate(from, to, {
-        duration: 2,
-        ease: "easeOut",
-        onUpdate(value) {
-          if (nodeRef.current) {
-            nodeRef.current.textContent = Math.round(value) + suffix;
-          }
-        },
-      });
-      return () => controls.stop();
-    }
-  }, [from, to, suffix, inView]);
-
-  return <span ref={nodeRef}>{from}{suffix}</span>;
-}
 
 export default function About() {
   const containerRef = useRef<HTMLElement>(null);
@@ -95,7 +74,7 @@ export default function About() {
                 className="flex flex-col space-y-2"
               >
                 <div className="text-4xl md:text-5xl font-bebas text-white">
-                  <Counter from={0} to={stat.value} suffix={stat.suffix} />
+                  {stat.value}{stat.suffix}
                 </div>
                 <div className="text-sm font-space text-gray-400 uppercase tracking-wider">
                   {stat.label}

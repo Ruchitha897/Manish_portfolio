@@ -11,6 +11,7 @@ const projects = [
     duration: '2:15',
     software: 'After Effects, Premiere Pro',
     layout: 'md:col-span-2 md:row-span-2', // Large featured card
+    videoSrc: '/videos/portfolio_video_1.mp4'
   },
   {
     id: 2,
@@ -104,9 +105,17 @@ export default function Portfolio() {
             >
               {/* Image Placeholder */}
               <div className="absolute inset-0 bg-[#1a1a1a] transition-transform duration-700 group-hover:scale-105">
-                <div className="w-full h-full flex items-center justify-center text-gray-700 font-space opacity-50">
-                  Thumbnail Placeholder ({project.category})
-                </div>
+                {project.videoSrc ? (
+                  <video 
+                    src={project.videoSrc}
+                    autoPlay muted loop playsInline
+                    className="w-full h-full object-cover opacity-70"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-700 font-space opacity-50">
+                    Thumbnail Placeholder ({project.category})
+                  </div>
+                )}
               </div>
 
               {/* Light Sweep Effect */}
@@ -176,15 +185,28 @@ export default function Portfolio() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="w-full max-w-6xl aspect-video bg-[#111] rounded-xl overflow-hidden border border-white/10 relative shadow-2xl"
+              className="w-full max-w-6xl aspect-video bg-transparent rounded-[20px] relative"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Placeholder Video Content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-500 font-space space-y-4">
-                <Play className="w-16 h-16 opacity-20" />
-                <p>Video Player Placeholder for Project {selectedVideo}</p>
-                <p className="text-sm">Replace this div with your actual video or iframe</p>
-              </div>
+              {projects.find(p => p.id === selectedVideo)?.videoSrc ? (
+                <div className="w-full h-full flex items-center justify-center bg-white/5 backdrop-blur-2xl border border-white/20 rounded-[20px] shadow-[0_0_50px_rgba(139,92,246,0.3)] p-2 md:p-4 relative overflow-hidden">
+                  {/* Subtle ambient glow behind the video */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/20 to-[#00e5ff]/20 opacity-50 mix-blend-overlay" />
+                  
+                  <video 
+                    src={projects.find(p => p.id === selectedVideo)?.videoSrc}
+                    controls
+                    autoPlay
+                    className="w-full h-full object-contain rounded-[20px] relative z-10 bg-black/50"
+                  />
+                </div>
+              ) : (
+                <div className="absolute inset-0 bg-[#111] rounded-[20px] overflow-hidden border border-white/10 shadow-2xl flex flex-col items-center justify-center text-gray-500 font-space space-y-4">
+                  <Play className="w-16 h-16 opacity-20" />
+                  <p>Video Player Placeholder for Project {selectedVideo}</p>
+                  <p className="text-sm">Replace this div with your actual video or iframe</p>
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}
