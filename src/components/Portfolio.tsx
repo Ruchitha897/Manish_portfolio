@@ -31,6 +31,7 @@ const projects = [
     duration: '10:45',
     software: 'Premiere Pro, After Effects',
     layout: 'md:col-span-1 md:row-span-1',
+    videoSrc: '/videos/portfolio_video_3.mp4'
   },
   {
     id: 4,
@@ -40,6 +41,7 @@ const projects = [
     duration: '0:30',
     software: 'CapCut, Premiere Pro',
     layout: 'md:col-span-1 md:row-span-2', // Vertical layout for reel
+    videoSrc: '/videos/portfolio_video_4.mp4'
   },
   {
     id: 5,
@@ -49,6 +51,7 @@ const projects = [
     duration: '3:45',
     software: 'Premiere Pro, After Effects, DaVinci',
     layout: 'md:col-span-2 md:row-span-1', // Wide layout
+    videoSrc: '/videos/portfolio_video_5.mp4'
   }
 ];
 
@@ -128,14 +131,14 @@ export default function Portfolio() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300 z-10" />
 
               {/* Play Button Center */}
-              <div className="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-300">
+              <div className="absolute inset-0 flex items-center justify-center z-20 opacity-100 scale-100 md:opacity-0 md:group-hover:opacity-100 md:scale-50 md:group-hover:scale-100 transition-all duration-300">
                 <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
                   <Play className="w-6 h-6 text-white ml-1" fill="currentColor" />
                 </div>
               </div>
 
               {/* Content */}
-              <div className="absolute inset-0 p-6 flex flex-col justify-end z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+              <div className="absolute inset-0 p-6 flex flex-col justify-end z-20 translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-300">
                 <div className="flex justify-between items-end">
                   <div>
                     <span className="text-[#00e5ff] text-xs font-space font-bold tracking-widest uppercase mb-2 flex items-center">
@@ -144,14 +147,14 @@ export default function Portfolio() {
                       {project.category}
                     </span>
                     <h4 className="text-3xl font-bebas text-white mb-2">{project.title}</h4>
-                    <p className="text-gray-300 text-sm font-light max-w-sm opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-300 overflow-hidden">
+                    <p className="text-gray-300 text-sm font-light max-w-sm opacity-100 h-auto md:opacity-0 md:h-0 md:group-hover:opacity-100 md:group-hover:h-auto transition-all duration-300 overflow-hidden">
                       {project.description}
                     </p>
                   </div>
                   
                   <div className="flex flex-col items-end text-xs font-space text-gray-400 space-y-1">
                     <span className="bg-white/10 px-2 py-1 rounded backdrop-blur-sm">{project.duration}</span>
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">{project.software}</span>
+                    <span className="opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">{project.software}</span>
                   </div>
                 </div>
               </div>
