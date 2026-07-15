@@ -139,17 +139,22 @@ export default function Hero() {
               className="absolute inset-[-40px] rounded-full border border-[#00e5ff]/20"
             />
             
-            {/* Image Placeholder with Glowing Border */}
-            <div className="absolute inset-0 rounded-full border-gradient p-[2px] animate-pulse">
-              <div className="w-full h-full rounded-full bg-[#111] overflow-hidden relative">
-                {/* Image will go here */}
-                <div className="absolute inset-0 flex items-center justify-center text-gray-600 font-space text-sm">
-                  Profile Image Placeholder
-                </div>
-                {/* Inner Glow */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#8b5cf6]/20 to-transparent mix-blend-overlay" />
+            {/* Image Container with Floating Animation & Glow */}
+            <motion.div 
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#8b5cf6] via-transparent to-[#00e5ff] p-[3px] shadow-[0_0_50px_rgba(139,92,246,0.25)] hover:shadow-[0_0_80px_rgba(0,229,255,0.4)] transition-shadow duration-500"
+            >
+              <div className="w-full h-full rounded-full bg-black/40 backdrop-blur-2xl overflow-hidden relative group">
+                <img 
+                  src="/hero_image.webp" 
+                  alt="Manish Reddy" 
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                />
+                {/* Inner Cinematic Glow */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#8b5cf6]/20 to-transparent mix-blend-overlay pointer-events-none" />
               </div>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </div>
