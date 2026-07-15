@@ -96,7 +96,7 @@ export default function Portfolio() {
         </div>
 
         {/* Grid/Masonry Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-3 md:auto-rows-[300px] gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 auto-rows-[300px] gap-6">
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
