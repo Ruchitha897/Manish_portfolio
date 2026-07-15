@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, X, PlayCircle, Camera } from 'lucide-react';
+import { Play, X } from 'lucide-react';
 
 const projects = [
   {
