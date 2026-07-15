@@ -21,6 +21,7 @@ const projects = [
     duration: '1:30',
     software: 'Premiere Pro, DaVinci Resolve',
     layout: 'md:col-span-1 md:row-span-1',
+    videoSrc: '/videos/portfolio_video_2.mp4'
   },
   {
     id: 3,
