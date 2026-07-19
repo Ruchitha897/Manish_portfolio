@@ -34,43 +34,47 @@ export default function FeaturedProject() {
           <h2 className="text-5xl md:text-7xl font-bebas text-white">The <span className="text-gradient">Horizon</span> Project</h2>
         </motion.div>
 
-        <div className="relative w-full rounded-3xl overflow-hidden group glass shadow-[0_8px_32px_rgba(139,92,246,0.15)] border border-white/10 flex flex-col md:flex-row bg-[#080808]">
-          {/* Image Box */}
-          <div className="w-full md:w-1/2 relative h-[50vh] md:h-auto min-h-[400px] overflow-hidden bg-black flex items-center justify-center">
+        <div className="relative h-[60vh] md:h-[80vh] w-full rounded-3xl overflow-hidden group glass shadow-[0_8px_32px_rgba(139,92,246,0.15)] border border-white/10 flex items-center justify-center bg-[#0a0a0a]">
+          {/* Subtle background for empty space */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/5 to-[#00e5ff]/5 pointer-events-none" />
+
+          {/* Parallax Image container with padding so it isn't cropped or obscured by text */}
+          <motion.div style={{ y: yImage }} className="absolute inset-0 flex items-center justify-center p-8 pb-40 md:p-16 md:pb-56">
              <img 
                src="/IMG-20.jpeg" 
                alt="Featured Project"
-               className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+               className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
              />
-          </div>
+          </motion.div>
           
-          {/* Project Details Box */}
-          <div className="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/5 to-[#00e5ff]/5 pointer-events-none" />
-            
-            <div className="relative z-10">
-              <h3 className="text-4xl md:text-5xl font-bebas text-white mb-4">Horizon Zero</h3>
-              <p className="text-gray-300 font-light mb-12 leading-relaxed">
-                An immersive cinematic experience built for the web. Combining heavy visual effects with seamless storytelling to create a truly unforgettable piece of art.
-              </p>
+          {/* Text background overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none" />
 
-              <div className="grid grid-cols-2 gap-x-8 gap-y-8 text-sm font-space">
-                <div>
-                  <span className="text-gray-500 block mb-1 uppercase tracking-wider text-xs">Role</span>
-                  <span className="text-white font-medium">Lead Editor & VFX</span>
-                </div>
-                <div>
-                  <span className="text-gray-500 block mb-1 uppercase tracking-wider text-xs">Client</span>
-                  <span className="text-white font-medium">Sony Music</span>
-                </div>
-                <div>
-                  <span className="text-gray-500 block mb-1 uppercase tracking-wider text-xs">Duration</span>
-                  <span className="text-white font-medium">4:30</span>
-                </div>
-                <div>
-                  <span className="text-gray-500 block mb-1 uppercase tracking-wider text-xs">Software</span>
-                  <span className="text-white font-medium">Resolve, After Effects</span>
-                </div>
+          {/* Project Details Overlay */}
+          <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 flex flex-col md:flex-row justify-between items-end">
+            <div className="mb-8 md:mb-0">
+               <h3 className="text-4xl md:text-5xl font-bebas text-white mb-4">Horizon Zero</h3>
+               <p className="text-gray-300 font-light max-w-lg leading-relaxed">
+                 An immersive cinematic experience built for the web. Combining heavy visual effects with seamless storytelling to create a truly unforgettable piece of art.
+               </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-x-12 gap-y-6 text-sm font-space">
+              <div>
+                <span className="text-gray-500 block mb-1 uppercase tracking-wider text-xs">Role</span>
+                <span className="text-white font-medium">Lead Editor & VFX</span>
+              </div>
+              <div>
+                <span className="text-gray-500 block mb-1 uppercase tracking-wider text-xs">Client</span>
+                <span className="text-white font-medium">Sony Music</span>
+              </div>
+              <div>
+                <span className="text-gray-500 block mb-1 uppercase tracking-wider text-xs">Duration</span>
+                <span className="text-white font-medium">4:30</span>
+              </div>
+              <div>
+                <span className="text-gray-500 block mb-1 uppercase tracking-wider text-xs">Software</span>
+                <span className="text-white font-medium">Resolve, After Effects</span>
               </div>
             </div>
           </div>
