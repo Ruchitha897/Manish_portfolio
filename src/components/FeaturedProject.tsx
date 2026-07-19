@@ -34,13 +34,14 @@ export default function FeaturedProject() {
           <h2 className="text-5xl md:text-7xl font-bebas text-white">The <span className="text-gradient">Horizon</span> Project</h2>
         </motion.div>
 
-        <div className="relative h-[60vh] md:h-[80vh] w-full rounded-3xl overflow-hidden group">
+        <div className="relative h-[60vh] md:h-[80vh] w-full rounded-3xl overflow-hidden group glass shadow-[0_8px_32px_rgba(139,92,246,0.15)] border border-white/10">
           {/* Parallax Image/Video */}
           <motion.div style={{ y: yImage }} className="absolute inset-[-100px] bg-[#080808]">
-             <div className="w-full h-full flex flex-col items-center justify-center text-gray-600 font-space text-lg">
-                <span className="mb-2">Featured Project Media Placeholder</span>
-                <span className="text-sm opacity-50">(Replace with Image or Video)</span>
-             </div>
+             <img 
+               src="/IMG-20.jpeg" 
+               alt="Featured Project"
+               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+             />
           </motion.div>
           
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />

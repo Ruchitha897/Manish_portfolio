@@ -20,15 +20,16 @@ export default function About() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-16 items-center">
         
         {/* Left Image Parallax */}
-        <div className="relative h-[600px] rounded-lg overflow-hidden glass group">
+        <div className="relative h-[600px] rounded-lg overflow-hidden glass group shadow-[0_8px_32px_rgba(139,92,246,0.15)] border border-white/10">
           <motion.div style={{ y: yImage }} className="absolute inset-[-100px] bg-[#111]">
-            <div className="w-full h-full flex flex-col items-center justify-center text-gray-600 font-space">
-              <span className="text-4xl mb-4 text-[#8b5cf6]/50">Image Placeholder</span>
-              <span>About Section Photo</span>
-            </div>
+            <img 
+              src="/about-image.jpeg" 
+              alt="About Manish Reddy"
+              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+            />
           </motion.div>
           {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#080808] to-transparent opacity-80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#080808] to-transparent opacity-80 pointer-events-none" />
         </div>
 
         {/* Right Content */}
