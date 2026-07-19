@@ -1,14 +1,9 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 
 export default function FeaturedProject() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
 
-  const yImage = useTransform(scrollYProgress, [0, 1], [-20, 20]);
   const inView = useInView(containerRef, { once: true, margin: "-100px" });
 
   return (
