@@ -1,15 +1,9 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 
 export default function About() {
   const containerRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const yImage = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
   const stats = [
     { value: 1, suffix: "+", label: "Years Experience" },
@@ -19,17 +13,14 @@ export default function About() {
     <section id="about" ref={containerRef} className="py-32 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-16 items-center">
         
-        {/* Left Image Parallax */}
-        <div className="relative h-[600px] rounded-lg overflow-hidden glass group shadow-[0_8px_32px_rgba(139,92,246,0.15)] border border-white/10">
-          <motion.div style={{ y: yImage }} className="absolute inset-[-100px] bg-[#111]">
-            <img 
-              src="/about-image.jpeg" 
-              alt="About Manish Reddy"
-              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-            />
-          </motion.div>
-          {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#080808] to-transparent opacity-80 pointer-events-none" />
+        {/* Left Image - Fully responsive, no crop, no zoom */}
+        <div className="relative w-full h-auto rounded-lg overflow-hidden glass shadow-[0_8px_32px_rgba(139,92,246,0.15)] border border-white/10 bg-[#0a0a0a] flex items-center justify-center">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/5 to-[#00e5ff]/5 pointer-events-none" />
+          <img 
+            src="/about-image.jpeg" 
+            alt="About Manish Reddy"
+            className="w-full h-auto object-contain object-center relative z-10 block"
+          />
         </div>
 
         {/* Right Content */}
