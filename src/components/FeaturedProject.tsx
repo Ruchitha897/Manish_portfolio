@@ -8,7 +8,7 @@ export default function FeaturedProject() {
     offset: ["start end", "end start"]
   });
 
-  const yImage = useTransform(scrollYProgress, [0, 1], [-100, 100]);
+  const yImage = useTransform(scrollYProgress, [0, 1], [-20, 20]);
   const inView = useInView(containerRef, { once: true, margin: "-100px" });
 
   return (
@@ -36,11 +36,20 @@ export default function FeaturedProject() {
 
         <div className="relative h-[60vh] md:h-[80vh] w-full rounded-3xl overflow-hidden group glass shadow-[0_8px_32px_rgba(139,92,246,0.15)] border border-white/10">
           {/* Parallax Image/Video */}
-          <motion.div style={{ y: yImage }} className="absolute inset-[-100px] bg-[#080808]">
+          <motion.div style={{ y: yImage }} className="absolute inset-[-20px] bg-[#080808]">
+             {/* Blurred Background to fill empty space for any aspect ratio */}
+             <div className="absolute inset-0 z-0 overflow-hidden">
+               <img 
+                 src="/IMG-20.jpeg" 
+                 alt=""
+                 className="w-full h-full object-cover opacity-30 blur-2xl group-hover:scale-110 transition-transform duration-700"
+               />
+             </div>
+             {/* Main Image */}
              <img 
                src="/IMG-20.jpeg" 
                alt="Featured Project"
-               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+               className="w-full h-full object-contain relative z-10 group-hover:scale-105 transition-transform duration-700"
              />
           </motion.div>
           
