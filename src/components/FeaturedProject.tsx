@@ -38,7 +38,7 @@ export default function FeaturedProject() {
              <img 
                src="/IMG-20.jpeg" 
                alt="Featured Project"
-               className="w-full h-auto max-h-[75vh] object-contain object-center group-hover:scale-105 transition-transform duration-700"
+               className="w-full h-auto object-contain object-center"
              />
           </div>
           
