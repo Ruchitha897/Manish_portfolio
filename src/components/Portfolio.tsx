@@ -52,6 +52,26 @@ const projects = [
     software: 'Premiere Pro, After Effects, DaVinci',
     layout: 'md:col-span-1 md:row-span-2', // Vertical layout
     videoSrc: '/videos/portfolio_video_5.mp4'
+  },
+  {
+    id: 6,
+    title: 'Project Alpha',
+    category: 'Cinematic',
+    description: 'A newly added cinematic sequence.',
+    duration: '2:00',
+    software: 'Premiere Pro, After Effects',
+    layout: 'md:col-span-1 md:row-span-2', // Vertical layout
+    videoSrc: '/videos/vid_1.mp4'
+  },
+  {
+    id: 7,
+    title: 'Project Beta',
+    category: 'Commercial',
+    description: 'High energy commercial showcase.',
+    duration: '1:30',
+    software: 'DaVinci Resolve',
+    layout: 'md:col-span-1 md:row-span-2', // Vertical layout
+    videoSrc: '/videos/vid_2.mp4'
   }
 ];
 
