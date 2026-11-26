@@ -118,8 +118,8 @@ export default function Portfolio() {
       }
       // Continuous automatic rotation when active and modal is closed
       else if (isRotating && !selectedVideo) {
-        // Fast, smooth cinematic speed (18 degrees per second - ~1.8x faster)
-        setRotationAngle(prev => (prev + 18 * delta) % 360000);
+        // 2x faster continuous automatic 3D rotation (36 degrees per second) on mobile and laptop
+        setRotationAngle(prev => (prev + 36 * delta) % 360000);
       }
 
       animFrameRef.current = requestAnimationFrame(animate);
@@ -250,10 +250,8 @@ export default function Portfolio() {
                   <div
                     key={project.id}
                     onClick={() => setSelectedVideo(project.id)}
-                    className="absolute rounded-2xl overflow-hidden cursor-pointer bg-[#111] border transition-[border-color,box-shadow] duration-300"
+                    className="absolute w-[200px] sm:w-[240px] lg:w-[280px] h-[340px] sm:h-[400px] lg:h-[460px] rounded-2xl overflow-hidden cursor-pointer bg-[#111] border transition-[border-color,box-shadow] duration-300"
                     style={{
-                      width: window.innerWidth < 640 ? '200px' : window.innerWidth < 1024 ? '240px' : '280px',
-                      height: window.innerWidth < 640 ? '340px' : window.innerWidth < 1024 ? '400px' : '460px',
                       transform: `rotateY(${cardBaseAngle}deg) translateZ(${radius}px) scale(${depthScale})`,
                       transformStyle: 'preserve-3d',
                       opacity: isFacingFront ? opacity : 0.25,
