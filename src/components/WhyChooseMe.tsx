@@ -52,23 +52,24 @@ export default function WhyChooseMe() {
           initial="hidden"
           animate={inView ? "show" : "hidden"}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          style={{ perspective: '1200px' }}
         >
           {reasons.map((reason, index) => (
             <motion.div 
               key={index}
               variants={itemVariants}
-              whileHover={{ scale: 1.05 }}
-              className="glass p-8 rounded-2xl border border-white/5 relative group cursor-pointer"
+              className="glass p-8 rounded-2xl border border-white/10 relative shadow-[0_15px_35px_rgba(0,0,0,0.6),0_0_20px_rgba(0,229,255,0.08)] bg-[#111]/80 backdrop-blur-xl"
+              style={{ transformStyle: 'preserve-3d' }}
             >
-              {/* Glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/0 to-[#00e5ff]/0 group-hover:from-[#8b5cf6]/10 group-hover:to-[#00e5ff]/10 transition-colors duration-500 rounded-2xl" />
+              {/* 3D Ambient Layer */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/10 to-[#00e5ff]/5 pointer-events-none rounded-2xl" />
               
-              <div className="relative z-10 flex flex-col items-start">
-                <div className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-[#8b5cf6]/20">
-                  <reason.icon className="w-6 h-6 text-gray-400 group-hover:text-[#00e5ff] transition-colors duration-300" />
+              <div className="relative z-10 flex flex-col items-start" style={{ transform: 'translateZ(10px)' }}>
+                <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6 shadow-[0_4px_16px_rgba(0,0,0,0.5)]">
+                  <reason.icon className="w-6 h-6 text-[#00e5ff]" />
                 </div>
                 
-                <h4 className="text-2xl font-bebas text-white mb-2 tracking-wide group-hover:text-[#00e5ff] transition-colors">{reason.title}</h4>
+                <h4 className="text-2xl font-bebas text-white mb-2 tracking-wide">{reason.title}</h4>
                 <p className="text-gray-400 font-light text-sm">{reason.desc}</p>
               </div>
             </motion.div>

@@ -76,14 +76,17 @@ export default function Hero() {
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full z-10 grid lg:grid-cols-2 gap-12 items-center">
-        {/* Text Content */}
-        <motion.div style={{ y: yText, opacity }} className="flex flex-col space-y-6">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full z-10 grid lg:grid-cols-2 gap-12 items-center" style={{ perspective: '1200px' }}>
+        {/* Text Content with 3D Depth */}
+        <motion.div 
+          style={{ y: yText, opacity, transformStyle: 'preserve-3d' }} 
+          className="flex flex-col space-y-6"
+        >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-[#00e5ff] font-space tracking-widest text-sm uppercase"
+            className="text-[#00e5ff] font-space tracking-widest text-sm uppercase drop-shadow-[0_2px_10px_rgba(0,229,255,0.4)]"
           >
             Professional Video Editor
           </motion.div>
@@ -92,7 +95,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-6xl md:text-8xl lg:text-9xl font-bebas leading-[0.9]"
+            className="text-6xl md:text-8xl lg:text-9xl font-bebas leading-[0.9] drop-shadow-[0_15px_30px_rgba(0,0,0,0.9)]"
           >
             MANISH<br/>
             <span className="text-gradient">REDDY</span>
@@ -102,7 +105,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="text-gray-400 text-lg md:text-xl max-w-md font-light"
+            className="text-gray-400 text-lg md:text-xl max-w-md font-light leading-relaxed"
           >
             Creating visuals that tell unforgettable stories. Cinematic editing for modern brands and creators.
           </motion.p>
@@ -113,46 +116,84 @@ export default function Hero() {
             transition={{ delay: 0.8 }}
             className="flex flex-wrap gap-4 pt-4"
           >
-            <a href="#portfolio" className="relative group px-8 py-4 bg-white text-black font-space font-medium overflow-hidden rounded-sm">
-              <span className="relative z-10 group-hover:text-white transition-colors duration-300">View Portfolio</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#8b5cf6] to-[#00e5ff] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+            <a 
+              href="#portfolio" 
+              className="relative px-8 py-4 bg-gradient-to-r from-white via-gray-100 to-white text-black font-space font-medium rounded-xl shadow-[0_10px_30px_rgba(255,255,255,0.15)] border border-white/40"
+            >
+              <span className="relative z-10">View Portfolio</span>
             </a>
             
-            <a href="#contact" className="px-8 py-4 border border-white/20 text-white font-space font-medium hover:bg-white/5 transition-colors rounded-sm">
+            <a 
+              href="#contact" 
+              className="px-8 py-4 border border-white/20 bg-white/5 backdrop-blur-md text-white font-space font-medium rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+            >
               Contact Me
             </a>
           </motion.div>
         </motion.div>
 
-        {/* Profile Image & Rings */}
-        <motion.div style={{ y: yImage, opacity }} className="relative flex justify-center lg:justify-end">
-          <div className="relative w-72 h-72 md:w-96 md:h-96">
-            {/* Rotating Rings */}
-            <motion.div 
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-[-20px] rounded-full border border-[#8b5cf6]/30 border-dashed"
+        {/* 3D Profile Showcase with Gyroscopic Orbital Rings & Depth */}
+        <motion.div 
+          style={{ y: yImage, opacity, perspective: '1200px' }} 
+          className="relative flex justify-center lg:justify-end"
+        >
+          <div 
+            className="relative w-72 h-72 md:w-96 md:h-96"
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            {/* 3D Deep Ambient Glow Plate */}
+            <div 
+              className="absolute -inset-10 rounded-full bg-gradient-to-tr from-[#8b5cf6]/25 via-transparent to-[#00e5ff]/25 blur-[60px] pointer-events-none"
+              style={{ transform: 'translateZ(-50px)' }}
             />
+
+            {/* 3D Gyroscopic Ring 1 - Cyan primary orbit */}
             <motion.div 
-              animate={{ rotate: -360 }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-[-40px] rounded-full border border-[#00e5ff]/20"
+              animate={{ rotateZ: 360 }}
+              transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-8 rounded-full border border-[#00e5ff]/35 border-dashed"
+              style={{ 
+                transformStyle: 'preserve-3d',
+                transform: 'rotateX(65deg) rotateY(18deg)',
+                boxShadow: '0 0 25px rgba(0,229,255,0.15)',
+              }}
+            />
+
+            {/* 3D Gyroscopic Ring 2 - Purple counter orbit */}
+            <motion.div 
+              animate={{ rotateZ: -360 }}
+              transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-14 rounded-full border border-[#8b5cf6]/30"
+              style={{ 
+                transformStyle: 'preserve-3d',
+                transform: 'rotateX(55deg) rotateY(-28deg)',
+                boxShadow: '0 0 25px rgba(139,92,246,0.15)',
+              }}
             />
             
-            {/* Image Container with Floating Animation & Glow */}
+            {/* 3D Floating Portrait Disc with Smooth Dimensional Float */}
             <motion.div 
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#8b5cf6] via-transparent to-[#00e5ff] p-[3px] shadow-[0_0_50px_rgba(139,92,246,0.25)] hover:shadow-[0_0_80px_rgba(0,229,255,0.4)] transition-shadow duration-500"
+              animate={{ 
+                y: [0, -12, 0],
+                rotateX: [0, 4, 0],
+                rotateY: [0, -4, 0],
+              }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#8b5cf6] via-[#00e5ff]/50 to-[#00e5ff] p-[3px] shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_60px_rgba(0,229,255,0.35),0_0_90px_rgba(139,92,246,0.25)]"
+              style={{ transformStyle: 'preserve-3d' }}
             >
-              <div className="w-full h-full rounded-full bg-black/40 backdrop-blur-2xl overflow-hidden relative group">
+              <div 
+                className="w-full h-full rounded-full bg-black/60 backdrop-blur-2xl overflow-hidden relative"
+                style={{ transform: 'translateZ(15px)' }}
+              >
                 <img 
                   src="/hero_image.webp" 
                   alt="Manish Reddy" 
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover object-center"
                 />
-                {/* Inner Cinematic Glow */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#8b5cf6]/20 to-transparent mix-blend-overlay pointer-events-none" />
+                {/* Inner Cinematic 3D Lighting Layer */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#8b5cf6]/25 via-transparent to-[#00e5ff]/20 mix-blend-overlay pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
               </div>
             </motion.div>
           </div>

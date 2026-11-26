@@ -18,17 +18,17 @@ export default function Footer() {
         </div>
 
         <div className="flex space-x-6">
-          <a href="#" className="text-gray-500 hover:text-[#8b5cf6] transition-colors hover:scale-110 transform duration-300">
+          <a href="#" className="text-gray-500 hover:text-[#8b5cf6] transition-colors p-2 rounded-full bg-white/5 border border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
             <Camera className="w-5 h-5" />
           </a>
-          <a href="#" className="text-gray-500 hover:text-[#ff0000] transition-colors hover:scale-110 transform duration-300">
+          <a href="#" className="text-gray-500 hover:text-[#ff0000] transition-colors p-2 rounded-full bg-white/5 border border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
             <PlayCircle className="w-5 h-5" />
           </a>
-          <a href="#" className="text-gray-500 hover:text-[#0a66c2] transition-colors hover:scale-110 transform duration-300">
+          <a href="#" className="text-gray-500 hover:text-[#0a66c2] transition-colors p-2 rounded-full bg-white/5 border border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
             <Briefcase className="w-5 h-5" />
           </a>
           {/* Behance Placeholder */}
-          <a href="#" className="text-gray-500 hover:text-[#1769ff] transition-colors hover:scale-110 transform duration-300 font-bold font-space text-lg leading-none">
+          <a href="#" className="text-gray-500 hover:text-[#1769ff] transition-colors p-2 rounded-full bg-white/5 border border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.4)] font-bold font-space text-lg leading-none flex items-center justify-center w-9 h-9">
             Bē
           </a>
         </div>

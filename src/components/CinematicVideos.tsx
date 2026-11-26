@@ -58,50 +58,56 @@ export default function CinematicVideos() {
           </motion.div>
         </div>
 
-        {/* 2 Video Blocks Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {cinematicVideos.map((video, index) => (
-            <motion.div
-              key={video.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              onClick={() => setSelectedVideo(video.id)}
-              className="group relative rounded-2xl overflow-hidden cursor-pointer bg-[#111] border border-white/10 aspect-video"
-            >
-              {/* Video Preview */}
-              <div className="absolute inset-0 bg-[#1a1a1a] transition-transform duration-700 group-hover:scale-105">
-                <video 
-                  src={video.videoSrc}
-                  autoPlay 
-                  muted 
-                  loop 
-                  playsInline
-                  preload="metadata"
-                  className="w-full h-full object-cover opacity-70"
-                />
-              </div>
-
-              {/* Light Sweep Effect */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden z-10">
-                <div className="absolute top-0 left-[-100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-20deg] group-hover:animate-sweep" />
-              </div>
-              
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300 z-10" />
-
-              {/* Play Button Center */}
-              <div className="absolute inset-0 flex items-center justify-center z-20 opacity-100 scale-100 md:opacity-0 md:group-hover:opacity-100 md:scale-50 md:group-hover:scale-100 transition-all duration-300">
-                <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg">
-                  <Play className="w-6 h-6 text-white ml-1" fill="currentColor" />
+        {/* 2 Video Blocks Grid with 3D Depth & Zero Cursor-Hover Effects */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8" style={{ perspective: '1200px' }}>
+          {cinematicVideos.map((video, index) => {
+            const isFirst = index === 0;
+            return (
+              <motion.div
+                key={video.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                onClick={() => setSelectedVideo(video.id)}
+                className="relative rounded-2xl overflow-hidden cursor-pointer bg-[#111] border border-white/15 aspect-video"
+                style={{
+                  transformStyle: 'preserve-3d',
+                  transform: isFirst ? 'rotateY(2.5deg) rotateX(1.5deg)' : 'rotateY(-2.5deg) rotateX(1.5deg)',
+                  boxShadow: '0 25px 60px rgba(0,0,0,0.85), 0 0 35px rgba(0,229,255,0.18)',
+                }}
+              >
+                {/* Video Preview */}
+                <div className="absolute inset-0 bg-[#1a1a1a]">
+                  <video 
+                    src={video.videoSrc}
+                    autoPlay 
+                    muted 
+                    loop 
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-cover opacity-80"
+                  />
                 </div>
-              </div>
+                
+                {/* Overlay for Depth */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent pointer-events-none z-10" />
 
-              {/* Animated Border */}
-              <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#8b5cf6]/50 rounded-2xl transition-colors duration-300 z-30 pointer-events-none" />
-            </motion.div>
-          ))}
+                {/* 3D Elevated Center Play Button */}
+                <div 
+                  className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
+                  style={{ transform: 'translateZ(25px)' }}
+                >
+                  <div className="w-16 h-16 rounded-full bg-[#080808]/80 backdrop-blur-md flex items-center justify-center border border-[#00e5ff]/50 shadow-[0_0_30px_rgba(0,229,255,0.35)]">
+                    <Play className="w-6 h-6 text-[#00e5ff] ml-1" fill="currentColor" />
+                  </div>
+                </div>
+
+                {/* 3D Card Ambient Border Glow */}
+                <div className="absolute inset-0 border border-white/10 rounded-2xl pointer-events-none z-30" />
+              </motion.div>
+            );
+          })}
         </div>
 
       </div>

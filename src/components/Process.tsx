@@ -50,13 +50,14 @@ export default function Process() {
               initial={{ opacity: 0, scale: 0.5, y: 50 }}
               animate={inView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.5, y: 50 }}
               transition={{ delay: index * 0.2, type: "spring", stiffness: 100 }}
-              className="relative z-10 flex flex-col items-center mb-12 md:mb-0 group w-full md:w-auto"
+              className="relative z-10 flex flex-col items-center mb-12 md:mb-0 w-full md:w-auto"
+              style={{ transformStyle: 'preserve-3d' }}
             >
-              <div className="w-20 h-20 rounded-full glass border border-white/20 flex items-center justify-center mb-4 group-hover:border-[#00e5ff] group-hover:shadow-[0_0_20px_rgba(0,229,255,0.3)] transition-all duration-300 bg-[#111]">
-                <step.icon className="w-8 h-8 text-gray-400 group-hover:text-[#00e5ff] transition-colors" />
+              <div className="w-20 h-20 rounded-full glass border border-white/20 flex items-center justify-center mb-4 shadow-[0_10px_25px_rgba(0,0,0,0.7),0_0_20px_rgba(0,229,255,0.2)] bg-[#111]">
+                <step.icon className="w-8 h-8 text-[#00e5ff]" />
               </div>
               <h4 className="font-bebas text-2xl text-white mb-1 tracking-wider text-center">{step.name}</h4>
-              <p className="text-gray-500 font-space text-xs uppercase tracking-widest text-center">{step.desc}</p>
+              <p className="text-gray-400 font-space text-xs uppercase tracking-widest text-center">{step.desc}</p>
               
               {/* Arrow for mobile, handled by line in desktop but could be explicit */}
               {index !== steps.length - 1 && (

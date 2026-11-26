@@ -118,8 +118,8 @@ export default function Portfolio() {
       }
       // Continuous automatic rotation when active and modal is closed
       else if (isRotating && !selectedVideo) {
-        // Slow, smooth cinematic speed (10 degrees per second)
-        setRotationAngle(prev => (prev + 10 * delta) % 360000);
+        // Fast, smooth cinematic speed (18 degrees per second - ~1.8x faster)
+        setRotationAngle(prev => (prev + 18 * delta) % 360000);
       }
 
       animFrameRef.current = requestAnimationFrame(animate);
@@ -205,16 +205,23 @@ export default function Portfolio() {
           {/* Perspective Viewport */}
           <div
             className="relative w-full h-[460px] sm:h-[500px] md:h-[540px] flex items-center justify-center overflow-visible"
-            style={{ perspective: '1400px' }}
+            style={{ perspective: '1500px' }}
           >
-            {/* Subtle Floor Ambient Lighting Ring */}
+            {/* Subtle Floor Ambient Lighting Ring & 3D Perspective Disc */}
             <div
-              className="absolute w-[560px] h-[560px] md:w-[720px] md:h-[720px] rounded-full pointer-events-none"
+              className="absolute w-[600px] h-[600px] md:w-[780px] md:h-[780px] rounded-full pointer-events-none"
               style={{
-                transform: 'rotateX(82deg) translateZ(-240px)',
-                background: 'radial-gradient(circle, rgba(0,229,255,0.12) 0%, rgba(139,92,246,0.06) 40%, transparent 70%)',
-                border: '1px solid rgba(0,229,255,0.15)',
-                boxShadow: '0 0 60px rgba(0,229,255,0.12)',
+                transform: 'rotateX(78deg) translateZ(-250px)',
+                background: 'radial-gradient(circle, rgba(0,229,255,0.15) 0%, rgba(139,92,246,0.08) 45%, transparent 70%)',
+                border: '1px solid rgba(0,229,255,0.25)',
+                boxShadow: '0 0 70px rgba(0,229,255,0.18), inset 0 0 40px rgba(139,92,246,0.12)',
+              }}
+            />
+            <div
+              className="absolute w-[420px] h-[420px] md:w-[540px] md:h-[540px] rounded-full pointer-events-none"
+              style={{
+                transform: 'rotateX(78deg) translateZ(-246px)',
+                border: '1px dashed rgba(139,92,246,0.3)',
               }}
             />
 
@@ -237,27 +244,28 @@ export default function Portfolio() {
                 // Realistic atmospheric lighting falloff based on 3D rotation position
                 const opacity = Math.max(0.35, (cosAngle + 1.2) / 2.2);
                 const brightness = Math.max(0.45, 0.55 + cosAngle * 0.45);
+                const depthScale = Math.max(0.85, 0.9 + cosAngle * 0.1);
 
                 return (
                   <div
                     key={project.id}
                     onClick={() => setSelectedVideo(project.id)}
-                    className="absolute rounded-2xl overflow-hidden cursor-pointer bg-[#111] border transition-colors duration-300"
+                    className="absolute rounded-2xl overflow-hidden cursor-pointer bg-[#111] border transition-[border-color,box-shadow] duration-300"
                     style={{
                       width: window.innerWidth < 640 ? '200px' : window.innerWidth < 1024 ? '240px' : '280px',
                       height: window.innerWidth < 640 ? '340px' : window.innerWidth < 1024 ? '400px' : '460px',
-                      transform: `rotateY(${cardBaseAngle}deg) translateZ(${radius}px)`,
+                      transform: `rotateY(${cardBaseAngle}deg) translateZ(${radius}px) scale(${depthScale})`,
                       transformStyle: 'preserve-3d',
                       opacity: isFacingFront ? opacity : 0.25,
                       filter: `brightness(${brightness})`,
                       pointerEvents: isFacingFront ? 'auto' : 'none',
                       zIndex: Math.round(cosAngle * 100),
                       borderColor: isCenter
-                        ? 'rgba(0,229,255,0.6)'
+                        ? 'rgba(0,229,255,0.7)'
                         : 'rgba(255,255,255,0.12)',
                       boxShadow: isCenter
-                        ? '0 0 35px rgba(0,229,255,0.25), 0 20px 40px rgba(0,0,0,0.85)'
-                        : '0 15px 35px rgba(0,0,0,0.7)',
+                        ? '0 0 45px rgba(0,229,255,0.35), 0 25px 50px rgba(0,0,0,0.9)'
+                        : '0 15px 35px rgba(0,0,0,0.75)',
                     }}
                   >
                     {/* Continuous Auto-Playing Video Preview */}

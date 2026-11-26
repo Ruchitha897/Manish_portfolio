@@ -49,12 +49,12 @@ export default function Contact() {
 
           <div className="flex justify-center space-x-4">
             {[Camera, PlayCircle, Mail].map((Icon, i) => (
-              <a key={i} href="#" className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-110">
+              <a key={i} href="#" className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black transition-colors duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
                 <Icon className="w-5 h-5" />
               </a>
             ))}
             {/* Behance Placeholder using text since lucide doesn't have it natively sometimes */}
-            <a href="#" className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#1769ff] hover:text-white transition-all duration-300 transform hover:scale-110 font-bold font-space">
+            <a href="#" className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-[#1769ff] hover:text-white transition-colors duration-300 font-bold font-space shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
               Bē
             </a>
           </div>

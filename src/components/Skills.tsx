@@ -18,33 +18,32 @@ function SkillCard({ skill, index }: { skill: typeof skills[0], index: number })
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
-      whileHover={{ scale: 1.02, rotateY: 5, rotateX: 5 }}
-      className="glass p-6 rounded-xl relative overflow-hidden group cursor-pointer border border-white/5 hover:border-[#8b5cf6]/50 transition-colors"
-      style={{ perspective: 1000 }}
+      className="glass p-6 rounded-xl relative overflow-hidden border border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.6),0_0_20px_rgba(139,92,246,0.1)] bg-[#111]/80 backdrop-blur-xl"
+      style={{ perspective: 1000, transformStyle: 'preserve-3d' }}
     >
-      {/* Glow Effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/0 to-[#00e5ff]/0 group-hover:from-[#8b5cf6]/10 group-hover:to-[#00e5ff]/10 transition-colors duration-500" />
+      {/* 3D Ambient Glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/10 to-[#00e5ff]/5 pointer-events-none rounded-xl" />
 
       <div className="relative z-10 flex items-center justify-between mb-4">
         <div className="flex items-center space-x-4">
           <div
-            className="w-12 h-12 rounded-lg flex items-center justify-center bg-black/50 border border-white/10"
+            className="w-12 h-12 rounded-lg flex items-center justify-center bg-black/60 border border-white/15 shadow-[0_4px_12px_rgba(0,0,0,0.5)]"
             style={{ color: skill.color }}
           >
             {/* REPLACE WITH OFFICIAL LOGO SVG */}
             <span className="font-bebas text-xl">{skill.name.charAt(0)}</span>
           </div>
-          <h4 className="font-space font-medium text-lg text-white group-hover:text-[#00e5ff] transition-colors">{skill.name}</h4>
+          <h4 className="font-space font-medium text-lg text-white">{skill.name}</h4>
         </div>
-        <span className="font-bebas text-2xl text-white/50">{skill.percentage}%</span>
+        <span className="font-bebas text-2xl text-white/70">{skill.percentage}%</span>
       </div>
 
-      <div className="relative z-10 w-full h-2 bg-black/50 rounded-full overflow-hidden">
+      <div className="relative z-10 w-full h-2 bg-black/60 rounded-full overflow-hidden border border-white/5">
         <motion.div
           initial={{ width: 0 }}
           animate={inView ? { width: `${skill.percentage}%` } : { width: 0 }}
           transition={{ duration: 1.5, delay: index * 0.1 + 0.3, ease: "easeOut" }}
-          className="h-full rounded-full"
+          className="h-full rounded-full shadow-[0_0_10px_rgba(139,92,246,0.5)]"
           style={{
             background: `linear-gradient(90deg, #8b5cf6 0%, ${skill.color} 100%)`
           }}
