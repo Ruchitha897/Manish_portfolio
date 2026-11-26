@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, RotateCcw, ChevronLeft, ChevronRight, X } from 'lucide-react';
 
@@ -70,57 +70,95 @@ const projects = [
 
 export default function Portfolio() {
   const [selectedVideo, setSelectedVideo] = useState<number | null>(null);
-
-  // Automatic 3D Rotation State
-  const [rotationAngle, setRotationAngle] = useState(0);
   const [isRotating, setIsRotating] = useState(true);
-  const [radius, setRadius] = useState(380);
 
+  // All rotation state lives in refs — zero React re-renders during animation
+  const angleRef = useRef(0);           // current rotation angle (degrees)
+  const isRotatingRef = useRef(true);   // synced with isRotating state
+  const selectedVideoRef = useRef<number | null>(null); // synced with selectedVideo
+  const targetAngleRef = useRef<number | null>(null);   // snap target for Prev/Next/Reset
   const animFrameRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(performance.now());
-  const targetAngleRef = useRef<number | null>(null);
+  const cylinderRef = useRef<HTMLDivElement>(null);     // direct DOM ref for cylinder
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]); // direct DOM refs for cards
 
   const count = projects.length;
   const angleStep = 360 / count;
+  const radiusRef = useRef(380);
 
-  // Responsive radius calculation
+  // Responsive radius — no re-render needed, just update ref
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < 640) {
-        setRadius(260);
-      } else if (width < 1024) {
-        setRadius(320);
-      } else {
-        setRadius(380);
-      }
+      const w = window.innerWidth;
+      radiusRef.current = w < 640 ? 260 : w < 1024 ? 320 : 380;
     };
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Continuous Automatic 3D Rotation Loop
-  useEffect(() => {
-    const animate = (currentTime: number) => {
-      const delta = Math.min((currentTime - lastTimeRef.current) / 1000, 0.1);
-      lastTimeRef.current = currentTime;
+  // Keep refs synced with state
+  useEffect(() => { isRotatingRef.current = isRotating; }, [isRotating]);
+  useEffect(() => { selectedVideoRef.current = selectedVideo; }, [selectedVideo]);
 
-      // Handle smooth snap transition to target angle (Reset / Prev / Next)
+  // HIGH-PERFORMANCE animation loop — runs once, never recreated
+  // Directly mutates DOM transforms — zero React re-renders per frame
+  useEffect(() => {
+    const SPEED = 60; // degrees per second (fast and smooth on all devices)
+
+    const animate = (now: number) => {
+      const delta = Math.min((now - lastTimeRef.current) / 1000, 0.05);
+      lastTimeRef.current = now;
+
       if (targetAngleRef.current !== null) {
-        const diff = targetAngleRef.current - rotationAngle;
-        if (Math.abs(diff) < 0.15) {
-          setRotationAngle(targetAngleRef.current);
+        // Smooth snap to target (Prev/Next/Reset)
+        const diff = targetAngleRef.current - angleRef.current;
+        if (Math.abs(diff) < 0.1) {
+          angleRef.current = targetAngleRef.current;
           targetAngleRef.current = null;
         } else {
-          setRotationAngle(prev => prev + diff * Math.min(1, delta * 6));
+          angleRef.current += diff * Math.min(1, delta * 8);
         }
+      } else if (isRotatingRef.current && !selectedVideoRef.current) {
+        angleRef.current = (angleRef.current + SPEED * delta) % 360000;
       }
-      // Continuous automatic rotation when active and modal is closed
-      else if (isRotating && !selectedVideo) {
-        // 2x faster continuous automatic 3D rotation (36 degrees per second) on mobile and laptop
-        setRotationAngle(prev => (prev + 36 * delta) % 360000);
+
+      // Directly write cylinder transform — no setState, no reconciler, no vDOM diff
+      if (cylinderRef.current) {
+        cylinderRef.current.style.transform = `rotateY(${angleRef.current}deg)`;
       }
+
+      // Update each card's dynamic per-frame styles directly on the DOM
+      const radius = radiusRef.current;
+      cardRefs.current.forEach((card, index) => {
+        if (!card) return;
+        const cardBaseAngle = index * angleStep;
+        const relAngle = ((cardBaseAngle + angleRef.current) % 360 + 540) % 360 - 180;
+        const cosAngle = Math.cos((relAngle * Math.PI) / 180);
+        const isFacingFront = cosAngle > -0.15;
+        const isCenter = Math.abs(relAngle) < angleStep * 0.55;
+        const opacity = Math.max(0.35, (cosAngle + 1.2) / 2.2);
+        const brightness = Math.max(0.45, 0.55 + cosAngle * 0.45);
+        const depthScale = Math.max(0.85, 0.9 + cosAngle * 0.1);
+
+        card.style.transform = `rotateY(${cardBaseAngle}deg) translateZ(${radius}px) scale(${depthScale})`;
+        card.style.opacity = isFacingFront ? String(opacity) : '0.25';
+        card.style.filter = `brightness(${brightness})`;
+        card.style.pointerEvents = isFacingFront ? 'auto' : 'none';
+        card.style.zIndex = String(Math.round(cosAngle * 100));
+        card.style.borderColor = isCenter ? 'rgba(0,229,255,0.7)' : 'rgba(255,255,255,0.12)';
+        card.style.boxShadow = isCenter
+          ? '0 0 45px rgba(0,229,255,0.35), 0 25px 50px rgba(0,0,0,0.9)'
+          : '0 15px 35px rgba(0,0,0,0.75)';
+
+        // Update play button glow on center card
+        const playBtn = card.querySelector<HTMLElement>('.play-btn-inner');
+        if (playBtn) {
+          playBtn.className = isCenter
+            ? 'play-btn-inner w-13 h-13 rounded-full flex items-center justify-center backdrop-blur-md bg-[#00e5ff] text-black shadow-[0_0_25px_rgba(0,229,255,0.6)]'
+            : 'play-btn-inner w-13 h-13 rounded-full flex items-center justify-center backdrop-blur-md bg-white/15 text-white border border-white/25 shadow-lg';
+        }
+      });
 
       animFrameRef.current = requestAnimationFrame(animate);
     };
@@ -128,34 +166,33 @@ export default function Portfolio() {
     lastTimeRef.current = performance.now();
     animFrameRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animFrameRef.current);
-  }, [isRotating, selectedVideo, rotationAngle]);
+  }, []); // ← Empty deps: loop starts once and never restarts
 
-  // Rotation Controls
-  const handlePlayRotation = () => {
+  // Controls
+  const handlePlayRotation = useCallback(() => {
     targetAngleRef.current = null;
     setIsRotating(true);
-  };
+  }, []);
 
-  const handleStopRotation = () => {
+  const handleStopRotation = useCallback(() => {
     setIsRotating(false);
     targetAngleRef.current = null;
-  };
+  }, []);
 
-  const handleResetView = () => {
+  const handleResetView = useCallback(() => {
     setIsRotating(false);
-    const nearestMultiple = Math.round(rotationAngle / angleStep) * angleStep;
-    targetAngleRef.current = nearestMultiple;
-  };
+    targetAngleRef.current = Math.round(angleRef.current / angleStep) * angleStep;
+  }, [angleStep]);
 
-  const handleStepPrev = () => {
+  const handleStepPrev = useCallback(() => {
     setIsRotating(false);
-    targetAngleRef.current = Math.round((rotationAngle + angleStep) / angleStep) * angleStep;
-  };
+    targetAngleRef.current = Math.round((angleRef.current + angleStep) / angleStep) * angleStep;
+  }, [angleStep]);
 
-  const handleStepNext = () => {
+  const handleStepNext = useCallback(() => {
     setIsRotating(false);
-    targetAngleRef.current = Math.round((rotationAngle - angleStep) / angleStep) * angleStep;
-  };
+    targetAngleRef.current = Math.round((angleRef.current - angleStep) / angleStep) * angleStep;
+  }, [angleStep]);
 
   return (
     <section id="portfolio" className="py-32 relative overflow-hidden bg-[#080808]">
@@ -225,45 +262,28 @@ export default function Portfolio() {
               }}
             />
 
-            {/* Rotating 3D Cylinder Anchor */}
+            {/* Rotating 3D Cylinder Anchor — driven directly by DOM ref, zero re-renders */}
             <div
+              ref={cylinderRef}
               className="relative w-full h-full flex items-center justify-center"
               style={{
                 transformStyle: 'preserve-3d',
-                transform: `rotateY(${rotationAngle}deg)`,
+                transform: 'rotateY(0deg)',
                 willChange: 'transform',
               }}
             >
               {projects.map((project, index) => {
                 const cardBaseAngle = index * angleStep;
-                const relAngle = ((cardBaseAngle + rotationAngle) % 360 + 540) % 360 - 180;
-                const cosAngle = Math.cos((relAngle * Math.PI) / 180);
-                const isFacingFront = cosAngle > -0.15;
-                const isCenter = Math.abs(relAngle) < angleStep * 0.55;
-
-                // Realistic atmospheric lighting falloff based on 3D rotation position
-                const opacity = Math.max(0.35, (cosAngle + 1.2) / 2.2);
-                const brightness = Math.max(0.45, 0.55 + cosAngle * 0.45);
-                const depthScale = Math.max(0.85, 0.9 + cosAngle * 0.1);
 
                 return (
                   <div
                     key={project.id}
+                    ref={el => { cardRefs.current[index] = el; }}
                     onClick={() => setSelectedVideo(project.id)}
-                    className="absolute w-[200px] sm:w-[240px] lg:w-[280px] h-[340px] sm:h-[400px] lg:h-[460px] rounded-2xl overflow-hidden cursor-pointer bg-[#111] border transition-[border-color,box-shadow] duration-300"
+                    className="absolute w-[200px] sm:w-[240px] lg:w-[280px] h-[340px] sm:h-[400px] lg:h-[460px] rounded-2xl overflow-hidden cursor-pointer bg-[#111] border"
                     style={{
-                      transform: `rotateY(${cardBaseAngle}deg) translateZ(${radius}px) scale(${depthScale})`,
+                      transform: `rotateY(${cardBaseAngle}deg) translateZ(${radiusRef.current}px)`,
                       transformStyle: 'preserve-3d',
-                      opacity: isFacingFront ? opacity : 0.25,
-                      filter: `brightness(${brightness})`,
-                      pointerEvents: isFacingFront ? 'auto' : 'none',
-                      zIndex: Math.round(cosAngle * 100),
-                      borderColor: isCenter
-                        ? 'rgba(0,229,255,0.7)'
-                        : 'rgba(255,255,255,0.12)',
-                      boxShadow: isCenter
-                        ? '0 0 45px rgba(0,229,255,0.35), 0 25px 50px rgba(0,0,0,0.9)'
-                        : '0 15px 35px rgba(0,0,0,0.75)',
                     }}
                   >
                     {/* Continuous Auto-Playing Video Preview */}
@@ -289,15 +309,9 @@ export default function Portfolio() {
                       </span>
                     </div>
 
-                    {/* Center Play Button */}
+                    {/* Center Play Button — className updated by animation loop for center highlight */}
                     <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-                      <div
-                        className={`w-13 h-13 rounded-full flex items-center justify-center backdrop-blur-md transition-all duration-300 ${
-                          isCenter
-                            ? 'bg-[#00e5ff] text-black shadow-[0_0_25px_rgba(0,229,255,0.6)]'
-                            : 'bg-white/15 text-white border border-white/25 shadow-lg'
-                        }`}
-                      >
+                      <div className="play-btn-inner w-13 h-13 rounded-full flex items-center justify-center backdrop-blur-md bg-white/15 text-white border border-white/25 shadow-lg">
                         <Play className="w-5 h-5 ml-0.5" fill="currentColor" />
                       </div>
                     </div>
